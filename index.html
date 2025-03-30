@@ -8,7 +8,7 @@
 
   <body>
     <div class="container">
-      <ul class="comments">
+      <ul id="comment" class="comments">
         <li class="comment">
           <div class="comment-header">
             <div>Глеб Фокин</div>
@@ -45,19 +45,21 @@
         </li>
       </ul>
       <div class="add-form">
-        <input
+        <input 
+          id="nameuser"
           type="text"
           class="add-form-name"
           placeholder="Введите ваше имя"
         />
         <textarea
+          id="textComment"
           type="textarea"
           class="add-form-text"
           placeholder="Введите ваш коментарий"
           rows="4"
         ></textarea>
         <div class="add-form-row">
-          <button class="add-form-button">Написать</button>
+          <button id="addComment" class="add-form-button">Написать</button>
         </div>
       </div>
     </div>
@@ -65,7 +67,51 @@
 
   <script>
     "use strict";
-    // Код писать здесь
+    function format(date){
+      let day = date.getDate();
+      let month = date.getMonth();
+      let year = date.getFullYear();
+      let minute = date.getMinutes();
+      if (Number(day) < 10) 
+        day = '0' + String(day);
+      if (Number(month) < 10) 
+        month = '0' + String(month);
+      if (Number(minute) < 10)
+        minute = '0' + String(minute);
+      let mas = String(year).split('');
+      year = mas[2] + mas[3];
+
+      return `${day}.${month}.${year} ${date.getHours()}:${minute}`;
+
+    }
+    const commentEl = document.getElementById("comment");
+    const addCommentEl = document.getElementById("addComment");
+    const nameEl = document.getElementById("nameuser");
+    const textcommentEl = document.getElementById("textComment");
+    const dateEl = new Date();
+    addCommentEl.addEventListener("click", () => {
+      if(name.value !== "" && textcommentEl.value !== ""){
+        const oldList = commentEl.innerHTML;
+        commentEl.innerHTML = oldList + `
+          <li class="comment">
+            <div class="comment-header">
+              <div>${nameEl.value}</div>
+              <div>${format(dateEl)}</div>
+            </div>
+            <div class="comment-body">
+              <div class="comment-text">
+              ${textcommentEl.value}
+              </div>
+            </div>
+            <div class="comment-footer">
+              <div class="likes">
+                <span class="likes-counter">0</span>
+                <button class="like-button"></button>
+              </div>
+            </div>
+          </li>`;
+      }
+    });
     console.log("It works!");
   </script>
 </html>
